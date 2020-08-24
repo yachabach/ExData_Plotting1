@@ -4,9 +4,10 @@ Plot1 <- function() {
 
 # Load data from working directory
 # 
-
-fileNm <- "household_power_consumption.txt"
-y <- fread(fileNm)
+        fileNm <- "household_power_consumption.txt"
+        hd <- fread(fileNm, nrows = 1)
+        y <- fread(fileNm, skip = 64800, nrows = 5000, header = TRUE)
+        colnames(y) = colnames(hd)
 
 #subset textual date data
 z <- y[grep('^1/2/2007|^2/2/2007',y$Date),]
@@ -17,6 +18,6 @@ png(file = "plot1.png")
 
 #draw histogram as assigned
 #
-hist(as.numeric(z$Global_active_power), col = "red", xlab = "Global Active Power (kilowatts)", main = "Global Active Power")
+with(z,hist(as.numeric(Global_active_power), col = "red", xlab = "Global Active Power (kilowatts)", main = "Global Active Power"))
 dev.off()
 }
